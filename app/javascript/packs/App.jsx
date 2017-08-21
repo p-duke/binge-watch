@@ -4,9 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from './Header';
 import Router from './Router';
 
-//App.js Component - This is currently the home page
 const App = props => (
-  <div className="container-fluid">
+  <div>
     <Header />
     <Router />
   </div>
