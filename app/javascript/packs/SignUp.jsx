@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 class SignUp extends React.Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <p>This is the signup page.</p>
         <ul>
           <li>Create sign up form markup</li>
