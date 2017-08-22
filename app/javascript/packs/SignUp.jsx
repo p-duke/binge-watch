@@ -6,15 +6,11 @@ class SignUp extends React.Component {
   render() {
     return (
       <div className="container">
-        <p>This is the signup page.</p>
-        <ul>
-          <li>Create sign up form markup</li>
-          <li>Add post axios request to devise controller</li>
-          <li>Configure devise controller to make user</li>
-          <li>Return json object to component</li>
-          <li>Kick data up to parent and setState</li>
-        </ul>
         <form action="/users" method="post">
+          <div className="form-group">
+            <label for="name">Username</label>
+            <input type="text" className="form-control" placeholder="Username" required />
+          </div>
           <div className="form-group">
             <label for="email">Email Address</label>
             <input type="email" className="form-control" placeholder="Email" required />
@@ -35,3 +31,10 @@ class SignUp extends React.Component {
 }
 
 export default SignUp;
+
+// Notes:
+// Create sign up form markup
+// Add post axios request to devise controller
+// Configure devise controller to make user
+// Return json object to component
+// Kick data up to parent and setState
