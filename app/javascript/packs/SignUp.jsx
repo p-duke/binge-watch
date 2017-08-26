@@ -33,7 +33,6 @@ class SignUp extends React.Component {
 export default SignUp;
 
 // Notes:
-// Create sign up form markup
 // Add post axios request to devise controller
 // Configure devise controller to make user
 // Return json object to component
