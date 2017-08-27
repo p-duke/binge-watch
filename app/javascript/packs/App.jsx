@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header';
-import Router from './Router';
+import Main from './Main';
 
 export default class App extends React.Component {
   constructor() {
@@ -9,21 +9,22 @@ export default class App extends React.Component {
     this.state = {
       id: '',
       username: '',
-      email: ''
+      email: '',
+      isLoggedIn: false,
     };
 
-    this.loginUser = this.loginUser.bind(this);
+    this.loginUserSuccess = this.loginUserSuccess.bind(this);
   }
 
-  loginUser(data) {
-    this.setState({ id: data.id, username: data.username, email: data.email })
+  loginUserSuccess(data) {
+    this.setState({ id: data.id, username: data.username, email: data.email, isLoggedIn: true, errors: [] });
   }
 
   render() {
     return (
       <div>
         <Header />
-        <Router loginUser={this.loginUser} />
+        <Main state={this.state} loginUserSuccess={this.loginUserSuccess} />
       </div>
     )
   }

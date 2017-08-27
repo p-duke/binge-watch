@@ -1,14 +1,19 @@
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
+  def new
+    @user = User.new
+  end
+
   def create
     @user = User.new(sign_up_params)
     if @user.save
-      sign_in @user
+      # sign_in @user
       data = { id: @user.id, username: @user.username, email: @user.email }
       render json: data
     else
-      render json: @user.errors.full_messages, status: :unprocessable_entity
+      data = { errors: @user.errors.messages }
+      render json: data, status: 422
     end
   end
 
