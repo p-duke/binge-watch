@@ -1,39 +1,70 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Redirect } from 'react-router'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
-class SignUp extends React.Component {
+export default class SignUp extends React.Component {
+  constructor() {
+    super();
+    this.signUp = this.signUp.bind(this);
+  }
+
+  componentDidMount(nextProps) {
+    this.loginUser = this.props.loginUser.bind(this);
+  }
+
+  signUp(e) {
+    e.preventDefault();
+    const loginUser = this.loginUser;
+
+    axios({
+      method: 'POST', 
+      url: this.refs.form.action,
+      data: {
+        username: this.refs.username.value,
+        email: this.refs.email.value,
+        password: this.refs.password.value,
+        password_confirmation: this.refs.passwordConfirmation.value
+      },
+      headers: {
+        'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
+      }
+    }).then(function(response) {
+      loginUser(response.data);
+      window.location.href = "/";
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+
+
   render() {
     return (
       <div className="container">
-        <form action="/users" method="post">
+        <form ref='form' action="/users" method="post">
           <div className="form-group">
-            <label for="name">Username</label>
-            <input type="text" className="form-control" placeholder="Username" required />
+            <label>Username</label>
+            <input type="text" ref="username" name="username" className="form-control" placeholder="Username" required />
           </div>
           <div className="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" className="form-control" placeholder="Email" required />
+            <label>Email Address</label>
+            <input type="email" ref="email" name="email" className="form-control" placeholder="Email" required />
           </div>
           <div className="form-group">
-            <label for="password">Password (6 characters minimum)</label>
-            <input type="password" className="form-control" placeholder="Password" required />
+            <label>Password (6 characters minimum)</label>
+            <input type="password" ref="password"  name="password" className="form-control" placeholder="Password" required />
           </div>
           <div className="form-group">
-            <label for="password">Password Confirmation</label>
-            <input type="password" className="form-control" placeholder="Password" required />
+            <label>Password Confirmation</label>
+            <input type="password" ref="passwordConfirmation" name="passwordConfirmation" className="form-control" placeholder="Password" required />
           </div>
-          <button type="submit" className="btn btn-default">Submit</button>
+          <button type="submit" className="btn btn-default" onClick={this.signUp}>Submit</button>
         </form>
       </div>
     )
   }
 }
 
-export default SignUp;
-
 // Notes:
-// Add post axios request to devise controller
-// Configure devise controller to make user
-// Return json object to component
 // Kick data up to parent and setState

@@ -1,25 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import Header from './Header';
 import Router from './Router';
 
-const App = props => (
-  <div>
-    <Header />
-    <Router />
-  </div>
-)
+export default class App extends React.Component {
+  constructor() {
+    super();
 
-export default App;
+    this.state = {
+      id: '',
+      username: '',
+      email: ''
+    };
 
-// This can be broken into an index.js file eventually
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render((
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  ), document.getElementById('root'))
-});
+    this.loginUser = this.loginUser.bind(this);
+  }
 
+  loginUser(data) {
+    this.setState({ id: data.id, username: data.username, email: data.email })
+  }
 
+  render() {
+    return (
+      <div>
+        <Header />
+        <Router loginUser={this.loginUser} />
+      </div>
+    )
+  }
+}

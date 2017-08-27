@@ -5,13 +5,20 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import SignUp from './SignUp';
 
-const Router = () => (
-  <div>
-    <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/users/sign_up' component={SignUp} />
-    </Switch>
-  </div>
-)
+class Router extends React.Component {
+  render() {
+    return(
+      <div>
+        <Switch>
+          <Route exact path='/' component={Home} />
+
+          <Route exact path='/users/new' render={() => (
+              <SignUp loginUser={this.props.loginUser} />
+          )} />
+        </Switch>
+      </div>
+    )
+  }
+}
 
 export default Router;
