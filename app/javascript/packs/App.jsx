@@ -14,17 +14,28 @@ export default class App extends React.Component {
     };
 
     this.loginUserSuccess = this.loginUserSuccess.bind(this);
+    this.logOutSuccess = this.loginUserSuccess.bind(this);
   }
 
   loginUserSuccess(data) {
-    this.setState({ id: data.id, username: data.username, email: data.email, isLoggedIn: true, errors: [] });
+    this.setState({ id: data.id, username: data.username, email: data.email, isLoggedIn: true });
+  }
+
+  logOutSuccess(data) {
+    this.setState({ id: '', username: '', email: '', isLoggedIn: false });
+  }
+
   }
 
   render() {
     return (
       <div>
         <Header />
-        <Main state={this.state} loginUserSuccess={this.loginUserSuccess} />
+        <Main 
+          state={this.state} 
+          loginUserSuccess={this.loginUserSuccess} 
+          logOutSuccess={this.logOutSuccess}
+        />
       </div>
     )
   }
