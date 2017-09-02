@@ -6,7 +6,7 @@ import axios from 'axios';
 import Errors from './Errors';
 import { isEmpty } from 'lodash';
 
-export default class LogIn extends React.Component {
+export default class SignUp extends React.Component {
   constructor() {
     super();
     this.logIn = this.logIn.bind(this);
