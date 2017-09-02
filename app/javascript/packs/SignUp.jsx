@@ -16,7 +16,7 @@ export default class SignUp extends React.Component {
     }
   }
 
-  componentDidMount(nextProps) {
+  componentDidMount() {
     this.loginUserSuccess = this.props.loginUserSuccess.bind(this);
   }
 
@@ -72,8 +72,9 @@ export default class SignUp extends React.Component {
               <label>Password Confirmation</label>
               <input type="password" ref="passwordConfirmation" name="passwordConfirmation" className="form-control" placeholder="Password" required />
             </div>
-            <button type="submit" className="btn btn-default" onClick={this.signUp}>Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={this.signUp}>Submit</button>
           </form>
+
         </div>
     )
   }

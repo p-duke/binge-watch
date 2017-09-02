@@ -13,8 +13,10 @@ const Header = () => (
 
       <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav">
-          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/'>Movie Search</Link></li>
           <li><Link to='/users/sign_up'>Sign Up</Link></li>
+          <li><Link to='/users/sign_in'>Log In</Link></li>
+          <li><Link to='/users/sign_out'>Log Out</Link></li>
         </ul>
       </div>
     </nav>

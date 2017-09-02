@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  include SessionsHelper
   respond_to :json
 
   def new
@@ -8,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new(sign_up_params)
     if @user.save
-      # sign_in @user
+      log_in(@user)
       data = { id: @user.id, username: @user.username, email: @user.email }
       render json: data
     else
