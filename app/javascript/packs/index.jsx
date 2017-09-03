@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import movieApp from './reducers';
 import App from './App';
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render((
+
+
+ReactDOM.render(
+  <Provider store={createStore(movieApp)}>
     <BrowserRouter>
-      <App />
+      <App  />
     </BrowserRouter>
-  ), document.getElementById('root'))
-});
+  </Provider>
+  ,document.getElementById('root')
+);

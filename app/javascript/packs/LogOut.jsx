@@ -2,30 +2,40 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 
-class LogOut extends React.Component {
+export default class LogOut extends React.Component {
   constructor() {
     super();
     this.logOut = this.logOut.bind(this);
   }
 
   componentDidMount() {
-    this.logOutSuccess = this.props.logOutSuccess.bind(this);
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   logOut() {
     const self = this;
+    const { user } = this.context.store.getState();
 
     axios({
       method: "DELETE",
       url: '/users/sign_out',
       data: {
-        id: self.props.state.id
+        id: user[0].id
       },
       headers: {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
       },
     }).then(function() {
-      self.props.logOutSuccess();
+      self.context.store.dispatch({
+        type: 'LOG_OUT',
+      });
       window.location.href = "/";
     }).catch(function(error) {
       console.log(error);
@@ -34,13 +44,18 @@ class LogOut extends React.Component {
   }
 
   render() {
-    if (!this.props.state.isLoggedIn) {
-      return <Redirect to='/' />;
+    const { store } = this.context;
+    const user = store.getState().user[0];
+
+    if (user) {
+      this.logOut()
     }
 
-    { this.props.state.isLoggedIn ? this.logOut() : null }
-    return ( null );
+    return ( <Redirect to='/' /> );
   }
 }
 
-export default LogOut;
+LogOut.contextTypes = {
+  store: React.PropTypes.object
+};
+

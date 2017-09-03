@@ -1,4 +1,3 @@
-//Main.js Component - This is handling the routes
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route } from 'react-router-dom';
@@ -13,19 +12,19 @@ export default class Main extends React.Component {
       <main>
         <Switch>
           <Route exact path='/' render={() => (
-            <Home state={this.props.state} />
+            <Home />
           )} />
 
           <Route exact path='/users/sign_up' render={() => (
-             <SignUp state={this.props.state} loginUserSuccess={this.props.loginUserSuccess} />
+             <SignUp />
           )} />
 
           <Route exact path='/users/sign_in' render={() => (
-             <LogIn state={this.props.state} loginUserSuccess={this.props.loginUserSuccess} />
+             <LogIn />
           )} />
 
           <Route exact path='/users/sign_out' render={() => (
-             <LogOut state={this.props.state} logOutSuccess={this.props.logOutSuccess} />
+             <LogOut />
           )} />
         </Switch>
       </main>

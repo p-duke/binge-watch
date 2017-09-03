@@ -17,13 +17,19 @@ export default class SignUp extends React.Component {
   }
 
   componentDidMount() {
-    this.loginUserSuccess = this.props.loginUserSuccess.bind(this);
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   signUp(e) {
     e.preventDefault();
     const self = this;
-    const loginUserSuccess = this.loginUserSuccess;
 
     axios({
       method: 'POST', 
@@ -38,8 +44,14 @@ export default class SignUp extends React.Component {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
       }
     }).then(function(response) {
-      loginUserSuccess(response.data);
-      self.setState({ redirect: true });
+      self.context.store.dispatch({
+        type: 'SIGN_UP',
+        id: response.data.id,
+        username: response.data.username,
+        email: response.data.email,
+        isLoggedIn: false,
+        redirect: true,
+      });
     }).catch(function(error) {
       self.setState({ errors: error.response.data.errors })
     });
@@ -47,7 +59,10 @@ export default class SignUp extends React.Component {
 
 
   render() {
-    if (this.state.redirect) {
+    const { store } = this.context;
+    const user = store.getState().user[0];
+
+    if (user && user.redirect) {
       return <Redirect to='/' />;
     }
 
@@ -79,3 +94,8 @@ export default class SignUp extends React.Component {
     )
   }
 }
+
+SignUp.contextTypes = {
+  store: React.PropTypes.object
+};
+
