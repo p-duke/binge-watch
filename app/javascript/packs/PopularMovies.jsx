@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Errors from './Errors';
 import { isEmpty } from 'lodash';
-import MovieList from './MovieList';
 
 export default class PopularMovies extends React.Component {
   constructor() {
@@ -49,9 +48,11 @@ export default class PopularMovies extends React.Component {
     const movies = this.context.store.getState().movies[0];
 
     return (
-      <div className="container-fluid">
+      <div className="container" style={{marginBottom: 50+'px'}}>
         { movies 
             ?
+            <div className="container">
+            <h2>Popular Movies</h2>
             <div id="myCarousel" className="carousel slide" data-ride="carousel">
               <ol className="carousel-indicators">
                 { movies.map((movie, index) =>
@@ -83,6 +84,7 @@ export default class PopularMovies extends React.Component {
               </a>
 
             </div>
+          </div>
           :
             <p>Loading...</p>
           }
