@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Errors from './Errors';
 import { isEmpty } from 'lodash';
+import { POPULAR_MOVIES_SEARCH } from './constants';
 
 export default class PopularMovies extends React.Component {
   constructor() {
@@ -16,20 +17,21 @@ export default class PopularMovies extends React.Component {
 
   componentWillMount() {
     const self = this;
+    const { popularMovies } = self.context.store.getState();
 
-    axios({
-      method: 'GET', 
-      url: 'https://api.themoviedb.org/3/discover/movie?api_key=8321a3cfc56c16d3d5e7144336d8a6e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1',
-      data: {
-      },
-    }).then(function(response) {
-      self.context.store.dispatch({
-        type: 'GET_MOVIES',
-        data: response.data.results,
+    if (_.isEmpty(popularMovies)) {
+      axios({
+        method: 'GET',
+        url: POPULAR_MOVIES_SEARCH,
+      }).then(function(response) {
+        self.context.store.dispatch({
+          type: 'GET_MOVIES',
+          data: response.data.results,
+        });
+      }).catch(function(error) {
+        console.log("Movie fetch blew up!", error);
       });
-    }).catch(function(error) {
-      console.log("Movie fetch blew up!", error);
-    });
+    }
   }
 
   componentDidMount() {
@@ -45,7 +47,7 @@ export default class PopularMovies extends React.Component {
   }
 
   render() {
-    const movies = this.context.store.getState().movies[0];
+    const movies = this.context.store.getState().popularMovies[0];
 
     return (
       <div className="container" style={{marginBottom: 50+'px'}}>

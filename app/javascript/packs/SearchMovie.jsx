@@ -1,20 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 
 export default class SearchMovie extends React.Component {
   constructor() {
     super();
     this.state = {
       results: [],
+      posterBasePath: "https://image.tmdb.org/t/p/w154",
     }
     this.search = this.search.bind(this);
-    
+    this.addMovie = this.addMovie.bind(this);
+  }
+
+  componentDidMount() {
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  addMovie(e) {
+    e.preventDefault();
+    e.target.innerText = 'Movie Added';
+    e.target.disabled = true;
+    const self = this;
+    const userID = self.context.store.getState().user[0].id;
+    const movie = this.state.results.find(function findMovie(movie) {
+      if (movie.title === e.target.parentElement.children[1].innerText) {
+        return movie;
+      }
+    });
+
+    axios({
+      method: 'POST', 
+      url: '/users/'+userID+'/movies',
+      data: {
+        title: movie.title,
+        overview: movie.overview,
+        release_date: movie.release_date,
+        poster_path: this.state.posterBasePath+movie.poster_path,
+        user_id: userID,
+      },
+      headers: {
+        'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+        'Content-Type': 'application/json',
+      }
+    }).then(function(response) {
+      self.context.store.dispatch({
+        type: 'ADD_MOVIE',
+        id: response.data.id,
+        title: response.data.title,
+        overview: response.data.overview,
+        posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(response.data.poster_path),
+        releaseDate: response.data.release_date,
+        userID: response.data.userID,
+      });
+    }).catch(function(error) {
+      self.setState({ errors: error.response.data })
+    });
   }
 
   search(e) {
     e.preventDefault();
     const self = this;
+    self.setState({ results: [] });
     const apiBase = "https://api.themoviedb.org/3/search/movie?api_key=8321a3cfc56c16d3d5e7144336d8a6e2&language=en-US&query="
     const apiEnd = "&page=1&include_adult=false"
 
@@ -32,33 +87,39 @@ export default class SearchMovie extends React.Component {
 
   render() {
     const movies = this.state.results;
-    const posterBasePath = "https://image.tmdb.org/t/p/w154"
+    const { store } = this.context;
+    const user = store.getState().user[0];
+
     return (
       <div className="container-fluid">
         <div className="container" style={{marginBottom: 60+'px'}}>
-          <form ref='form' action="/users" method="post">
+          <form ref='form' action="/movies" method="post">
             <div className="form-group">
               <label>Search Movies</label>
               <input type="text" ref="query" name="query" className="form-control" placeholder="Try a search like 'star wars'" required />
             </div>
-            <button type="submit" className="btn btn-primary" onClick={this.search}>Search</button>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary" onClick={this.search}>Search</button>
+            </div>
+            { !_.isEmpty(movies)
+                ? movies.map((movie, index) =>
+                  <div key={index} className="list-group">
+                    <a href="#" className="list-group-item" key={index} style={{listStyle: 'none'}}>
+                      <img ref="posterPath" className="img-responsive" name="posterPath" src={this.state.posterBasePath+movie.poster_path} alt={movie.title} />
+                      <p ref="title">{movie.title}</p>
+                      <p>Summary: <span ref="overview">{movie.overview}</span></p>
+                      <p>Release Date: <span ref="releaseDate">{movie.release_date}</span></p>
+                      { (user && user.isLoggedIn)
+                          ? <button type="submit" className="btn btn-primary" onClick={this.addMovie}>Add Movie</button>
+                          : <button type="submit" className="btn btn-primary disabled" data-toggle="tooltip" title="Please sign up or log in to add movies" data-placement="top" disabled="disabled">Add Movie</button>
+                      }
+                    </a>
+                  </div>
+                )
+                : <p>No Results. Please try to search above.</p>
+            }
           </form>
         </div>
-        { movies
-          ? movies.map((movie, index) =>
-            <div key={index} className="container">
-              <div className="list-group">
-                <a href="#" className="list-group-item" key={index} style={{listStyle: 'none'}}>
-                  <img className="img-responsive" src={posterBasePath+movie.poster_path} alt={movie.title} />
-                  <p>{movie.title}</p>
-                  <p>Summary: {movie.overview}</p>
-                  <p>Release Date: {movie.release_date}</p>
-                </a>
-              </div>
-            </div>
-          )
-          : <p>No Results. Please try to search above.</p>
-        }
       </div>
     );
   }

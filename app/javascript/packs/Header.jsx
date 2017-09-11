@@ -35,6 +35,10 @@ export default class Header extends React.Component {
               <li><Link to='/users/sign_up'>Sign Up</Link></li>
               <li><Link to='/users/sign_in'>Log In</Link></li>
               <li><Link to='/users/sign_out'>Log Out</Link></li>
+              { user
+                ? <li><Link to={`/users/${user.id}`}>Profile</Link></li>
+                : <li><Link to={'/users/'}>Profile</Link></li>
+              }
             </ul>
               { user
                   ?  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome back, {user.username}!</Link></li></ul>

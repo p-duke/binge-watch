@@ -33,6 +33,7 @@ export default class LogOut extends React.Component {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
       },
     }).then(function() {
+      localStorage.removeItem('user');
       self.context.store.dispatch({
         type: 'LOG_OUT',
       });

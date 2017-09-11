@@ -41,6 +41,7 @@ export default class LogIn extends React.Component {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
       }
     }).then(function(response) {
+      localStorage.setItem('user', JSON.stringify(response.data))
       self.context.store.dispatch({
         type: 'LOG_IN',
         id: response.data.id,
