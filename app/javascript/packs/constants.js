@@ -1,0 +1,1 @@
+export const POPULAR_MOVIES_SEARCH = 'https://api.themoviedb.org/3/discover/movie?api_key=8321a3cfc56c16d3d5e7144336d8a6e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';

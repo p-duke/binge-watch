@@ -5,6 +5,7 @@ import Home from './Home';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import LogOut from './LogOut';
+import Profile from './Profile';
 
 export default class Main extends React.Component {
   render() {
@@ -25,6 +26,10 @@ export default class Main extends React.Component {
 
           <Route exact path='/users/sign_out' render={() => (
              <LogOut />
+          )} />
+
+          <Route path='/users/*/' render={() => (
+            <Profile />
           )} />
         </Switch>
       </main>

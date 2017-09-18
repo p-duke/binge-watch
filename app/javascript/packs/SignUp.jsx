@@ -44,6 +44,7 @@ export default class SignUp extends React.Component {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
       }
     }).then(function(response) {
+      localStorage.setItem('user', JSON.stringify(response.data))
       self.context.store.dispatch({
         type: 'SIGN_UP',
         id: response.data.id,

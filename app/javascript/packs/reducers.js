@@ -40,13 +40,13 @@ const user = (state = [], action) => {
   }
 };
 
-const movies = (state = [], action) => {
+const popularMovies = (state = [], action) => {
   switch (action.type) {
     case 'GET_MOVIES':
       return [
         ...state,
         action.data.map(function(movie) {
-         return {
+          return {
             id: movie.id,
             title: movie.title,
             overview: movie.overview,
@@ -60,8 +60,41 @@ const movies = (state = [], action) => {
   }
 };
 
+const movies = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_MOVIE':
+      return [
+        ...state,
+        {
+          id: action.id,
+          title: action.title,
+          overview: action.overview,
+          posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(action.poster_path),
+          releaseDate: action.release_date,
+          userID: action.userID,
+        }
+      ]
+    case 'USER_MOVIES':
+      return [
+        ...state,
+        action.data.map(function(movie) {
+          return {
+            id: movie.id,
+            title: movie.title,
+            overview: movie.overview,
+            poster_path: movie.poster_path,
+            release_date: movie.release_date,
+          }
+        })
+      ];
+    default:
+      return state;
+  }
+};
+
 const movieApp = combineReducers({
   user,
+  popularMovies,
   movies,
 });
 
