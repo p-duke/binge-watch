@@ -3,12 +3,10 @@ import { capitalize } from 'lodash';
 
 const Errors = (props) => {
   return (
-    <div className="container">
-      <ul>
-        { Object.keys(props.errors).map(function(key, index) {
-          return <li key={index} >{_.capitalize(key.toString())}: {props.errors[key].toString()}</li>
-        }, this)}
-      </ul>
+    <div>
+      { Object.keys(props.errors).map(function(key, index) {
+        return <div className="alert alert-danger"><p key={index} >{_.capitalize(key.toString())} {props.errors[key].toString()}</p></div>
+      }, this)}
     </div>
   )
 }

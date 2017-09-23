@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Errors from './Errors';
 import { isEmpty } from 'lodash';
+import LogInForm from './LogInForm';
 
 export default class LogIn extends React.Component {
   constructor() {
@@ -29,13 +30,14 @@ export default class LogIn extends React.Component {
   logIn(e) {
     e.preventDefault();
     const self = this;
+    const { values } = this.refs.form.ref.context.store.getState().form.logIn;
 
     axios({
       method: 'POST', 
-      url: this.refs.form.action,
+      url: e.target.formAction,
       data: {
-        email: this.refs.email.value,
-        password: this.refs.password.value,
+        email: values.email,
+        password: values.password,
       },
       headers: {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content
@@ -69,18 +71,7 @@ export default class LogIn extends React.Component {
 
         { !_.isEmpty(this.state.errors) ? <Errors errors={this.state.errors} /> : '' }
 
-        <form ref='form' action="/users/sign_in" method="post">
-          <div className="form-group">
-            <label>Email Address</label>
-            <input type="email" ref="email" name="email" className="form-control" placeholder="Email" required />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" ref="password"  name="password" className="form-control" placeholder="Password" required />
-          </div>
-          <button type="submit" className="btn btn-primary" onClick={this.logIn}>Submit</button>
-        </form>
-
+        <LogInForm ref='form' logIn={this.logIn} />
       </div>
     )
   }

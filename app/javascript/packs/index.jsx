@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import movieApp from './reducers';
 import App from './App';
 
-
-
 ReactDOM.render(
   <Provider store={createStore(movieApp)}>
     <BrowserRouter>
