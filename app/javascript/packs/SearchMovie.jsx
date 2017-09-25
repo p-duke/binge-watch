@@ -36,30 +36,46 @@ export default class SearchMovie extends React.Component {
         return movie;
       }
     });
+    const query = `
+      mutation {
+        createMovie (
+          user_id: "${parseInt(userID)}",
+          title: "${movie.title}",
+          overview: "${movie.overview}",
+          release_date: "${movie.release_date}",
+          poster_path: "${this.state.posterBasePath+movie.poster_path}"
+        ) {
+            id
+            title
+            overview
+            release_date
+            poster_path
+            user {
+              id
+            }
+          }
+    }`;
 
     axios({
       method: 'POST', 
-      url: '/users/'+userID+'/movies',
+      url: '/graphql',
       data: {
-        title: movie.title,
-        overview: movie.overview,
-        release_date: movie.release_date,
-        poster_path: this.state.posterBasePath+movie.poster_path,
-        user_id: userID,
+        query: query
       },
       headers: {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
         'Content-Type': 'application/json',
       }
     }).then(function(response) {
+      response.data.data.createMovie
       self.context.store.dispatch({
         type: 'ADD_MOVIE',
-        id: response.data.id,
-        title: response.data.title,
-        overview: response.data.overview,
-        posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(response.data.poster_path),
-        releaseDate: response.data.release_date,
-        userID: response.data.userID,
+        id: response.data.data.createMovie.id,
+        title: response.data.data.createMovie.title,
+        overview: response.data.data.createMovie.overview,
+        posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(response.data.data.createMovie.poster_path),
+        releaseDate: response.data.data.createMovie.release_date,
+        userID: response.data.data.createMovie.user.id,
       });
     }).catch(function(error) {
       self.setState({ errors: error.response.data })

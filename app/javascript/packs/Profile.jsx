@@ -17,17 +17,28 @@ export default class Profile extends React.Component {
     const self = this;
     const { store } = this.context;
     const user = store.getState().user[0];
+    const query = `
+      query {
+        userMovies(userID: "${user.id}") {
+          id,
+          title,
+          overview,
+          poster_path,
+          release_date,
+        }
+    }`;
 
     axios({
       method: 'GET', 
-      url: '/users/'+user.id+'/movies',
-      data: {
-      },
+      url: '/graphql',
+      params: {
+        query: query
+      }
     }).then(function(response) {
-      self.setState({ movies: response.data.movies });
+      self.setState({ movies: response.data.data.userMovies });
       self.context.store.dispatch({
         type: 'USER_MOVIES',
-        data: response.data.movies,
+        data: response.data.data.userMovies,
       });
     }).catch(function(error) {
       console.log("Movie search blew up!", error);
@@ -53,7 +64,7 @@ export default class Profile extends React.Component {
 
     e.target.innerText = 'Movie Removed';
     e.target.disabled = true;
-    setTimeout(function() { parentDiv.remove() }.bind(this), 3000);
+    setTimeout(function() { parentDiv.remove() }.bind(this), 1000);
 
     const movie = this.state.movies.find(function findMovie(movie) {
       if (movie.title === e.target.parentElement.children[0].innerText) {
@@ -61,15 +72,18 @@ export default class Profile extends React.Component {
       }
     });
 
+    const query = `
+      mutation {
+        deleteMovie(id: "${parseInt(movie.id)}", userID: "${parseInt(userID)}") {
+          id
+        }
+    }`;
+
     axios({
-      method: 'DELETE',
-      url: '/users/'+userID+'/movies/'+movie.id,
+      method: 'POST',
+      url: '/graphql',
       data: {
-        title: movie.title,
-        overview: movie.overview,
-        release_date: movie.release_date,
-        poster_path: this.state.posterBasePath+movie.poster_path,
-        user_id: userID,
+        query: query
       },
       headers: {
         'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
