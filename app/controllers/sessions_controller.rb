@@ -21,7 +21,7 @@ class SessionsController < Devise::SessionsController
   # DELETE /users/sign_out
   def destroy
     log_out
-    render json: { message: "Logged out successfully" }
+    render json: { message: 'Logged out successfully' }
   end
 
   private

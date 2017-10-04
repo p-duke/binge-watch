@@ -8,8 +8,8 @@ class Resolvers::CreateMovie < GraphQL::Function
 
   type Types::MovieType
 
-  def call(obj, args, ctx)
-    Movie.create!(
+  def call(_obj, args, _ctx)
+    Movie.create(
       title: args[:title],
       overview: args[:overview],
       release_date: args[:release_date],

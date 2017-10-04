@@ -10,4 +10,8 @@ Types::MovieType = GraphQL::ObjectType.define do
   field :rating, types.Int
 
   field :user, -> { Types::UserType }
+
+  field :errors, types[types.String], "Reasons the object couldn't be created or updated" do
+    resolve ->(obj, _args, _ctx) { obj.errors.full_messages }
+  end
 end
