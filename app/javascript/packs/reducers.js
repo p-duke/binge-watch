@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-const user = (state = [], action) => {
+export const user = (state = [], action) => {
   switch (action.type) {
     case 'SIGN_UP':
       return [
@@ -41,7 +41,7 @@ const user = (state = [], action) => {
   }
 };
 
-const popularMovies = (state = [], action) => {
+export const popularMovies = (state = [], action) => {
   switch (action.type) {
     case 'GET_MOVIES':
       return [
@@ -61,7 +61,7 @@ const popularMovies = (state = [], action) => {
   }
 };
 
-const movies = (state = [], action) => {
+export const movies = (state = [], action) => {
   switch (action.type) {
     case 'ADD_MOVIE':
       return [
