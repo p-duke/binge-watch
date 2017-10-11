@@ -27,7 +27,7 @@ export default class Header extends React.Component {
         <nav className="navbar navbar-default">
           <div className="navbar-header">
             <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"></button>
-            <a className="navbar-brand">GroovyMovie</a>
+            <a className="navbar-brand">BingeWatch</a>
           </div>
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-left">

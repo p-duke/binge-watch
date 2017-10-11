@@ -1,4 +1,4 @@
-GroovyMovieSchema = GraphQL::Schema.define do
+BingeWatchSchema = GraphQL::Schema.define do
   mutation(Types::MutationType)
   query(Types::QueryType)
 end

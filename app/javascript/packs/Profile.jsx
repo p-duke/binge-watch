@@ -8,7 +8,6 @@ export default class Profile extends React.Component {
     super();
     this.state = {
       posterBasePath: "https://image.tmdb.org/t/p/w154",
-      movies: [],
     }
     this.removeMovie = this.removeMovie.bind(this);
     this.checkWatched = this.checkWatched.bind(this);
@@ -37,11 +36,12 @@ export default class Profile extends React.Component {
         query: query
       }
     }).then(function(response) {
-      self.setState({ movies: response.data.data.userMovies });
-      self.context.store.dispatch({
+      return self.context.store.dispatch({
         type: 'USER_MOVIES',
         data: response.data.data.userMovies,
       });
+    }).then(function(response) {
+      self.setState({ movies: response.data });
     }).catch(function(error) {
       console.log("Movie search blew up!", error);
     });
@@ -97,8 +97,6 @@ export default class Profile extends React.Component {
         type: 'UPDATE_MOVIE',
         data: response.data.data.updateMovie,
       });
-
-      self.setState({ movies: self.context.store.getState().movies[0] });
     }).catch(function(error) {
       console.log(error);
     });
@@ -144,7 +142,7 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    const movies = this.state.movies;
+    const movies = this.context.store.getState().movies;
     const user = this.context.store.getState().user[0];
 
     return (

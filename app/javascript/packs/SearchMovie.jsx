@@ -67,7 +67,6 @@ export default class SearchMovie extends React.Component {
         'Content-Type': 'application/json',
       }
     }).then(function(response) {
-      response.data.data.createMovie
       self.context.store.dispatch({
         type: 'ADD_MOVIE',
         id: response.data.data.createMovie.id,
