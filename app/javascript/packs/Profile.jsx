@@ -11,6 +11,7 @@ export default class Profile extends React.Component {
       movies: [],
     }
     this.removeMovie = this.removeMovie.bind(this);
+    this.checkWatched = this.checkWatched.bind(this);
   }
 
   componentWillMount() {
@@ -25,6 +26,7 @@ export default class Profile extends React.Component {
           overview,
           poster_path,
           release_date,
+          watched,
         }
     }`;
 
@@ -54,6 +56,52 @@ export default class Profile extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  checkWatched(e) {
+    e.preventDefault();
+    const self = this;
+    const isWatched = e.target.checked;
+    const userID = self.context.store.getState().user[0].id;
+    const changedMovie = e.target.parentElement.parentElement.parentElement.children[0].innerText;
+    const movie = this.state.movies.find(function findMovie(movie) {
+      if (movie.title === changedMovie) {
+        return movie;
+      }
+    });
+
+    const query = `
+      mutation {
+        updateMovie(id: "${parseInt(movie.id)}", userID: "${parseInt(userID)}", watched: ${isWatched}) {
+          id
+          title
+          overview
+          poster_path
+          release_date
+          watched
+        }
+    }`;
+  
+    axios({
+      method: 'POST',
+      url: '/graphql',
+      data: {
+        query: query
+      },
+      headers: {
+        'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+        'Content-Type': 'application/json',
+      }
+    }).then(function(response) {
+      self.context.store.dispatch({
+        type: 'UPDATE_MOVIE',
+        data: response.data.data.updateMovie,
+      });
+
+      self.setState({ movies: self.context.store.getState().movies[0] });
+    }).catch(function(error) {
+      console.log(error);
+    });
   }
 
   removeMovie(e) {
@@ -149,6 +197,11 @@ export default class Profile extends React.Component {
                                 <h3 style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{movie.title}</h3>
                                 <p style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{movie.overview}</p>
                                 <p>Release Date: <span>{movie.release_date}</span></p>
+                                <div className='checkbox'>
+                                  <label>
+                                    <input type='checkbox' checked={movie.watched} onClick={this.checkWatched}/> Mark as watched
+                                  </label>
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={this.removeMovie}>Remove Movie</button>
                               </div>
                             </div>

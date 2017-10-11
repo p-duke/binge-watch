@@ -85,6 +85,18 @@ export const movies = (state = [], action) => {
             overview: movie.overview,
             poster_path: movie.poster_path,
             release_date: movie.release_date,
+            watched: movie.watched,
+          }
+        })
+      ]
+    case 'UPDATE_MOVIE':
+      return [
+        state[0].map(movie => {
+          if (movie.id === action.data.id) {
+            movie.watched = action.data.watched;
+            return movie;
+          } else {
+            return movie;
           }
         })
       ];
