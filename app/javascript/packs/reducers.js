@@ -72,34 +72,27 @@ export const movies = (state = [], action) => {
           overview: action.overview,
           posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(action.poster_path),
           releaseDate: action.release_date,
+          watched: false,
           userID: action.userID,
         }
       ]
     case 'USER_MOVIES':
-      return [
-        ...state,
-        action.data.map(function(movie) {
-          return {
-            id: movie.id,
-            title: movie.title,
-            overview: movie.overview,
-            poster_path: movie.poster_path,
-            release_date: movie.release_date,
-            watched: movie.watched,
-          }
-        })
-      ]
+      return action.data.map(function(movie) {
+        return {
+          id: movie.id,
+          title: movie.title,
+          overview: movie.overview,
+          poster_path: movie.poster_path,
+          release_date: movie.release_date,
+          watched: movie.watched,
+        }
+      })
     case 'UPDATE_MOVIE':
-      return [
-        state[0].map(movie => {
-          if (movie.id === action.data.id) {
-            movie.watched = action.data.watched;
-            return movie;
-          } else {
-            return movie;
-          }
-        })
-      ];
+      return state.map(movie =>
+        (movie.id === action.data.id)
+        ? Object.assign({}, action.data)
+        : movie
+      )
     default:
       return state;
   }

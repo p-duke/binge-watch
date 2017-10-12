@@ -116,6 +116,6 @@ describe('movies reducer', () => {
 
   it('should handle USER_MOVIES', () => {
     listOfMovies.type = 'USER_MOVIES';
-    expect(movies([], listOfMovies)[0]).toHaveLength(2);
+    expect(movies([], listOfMovies)).toHaveLength(2);
   });
 });
