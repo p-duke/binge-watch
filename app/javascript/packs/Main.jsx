@@ -28,7 +28,7 @@ export default class Main extends React.Component {
              <LogOut />
           )} />
 
-          <Route path='/users/*/' render={() => (
+          <Route path='/users/*/movies' render={() => (
             <Profile />
           )} />
         </Switch>

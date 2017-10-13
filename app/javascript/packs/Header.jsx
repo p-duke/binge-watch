@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 
 export default class Header extends React.Component {
   constructor() {
@@ -36,12 +37,12 @@ export default class Header extends React.Component {
               <li><Link to='/users/sign_in'>Log In</Link></li>
               <li><Link to='/users/sign_out'>Log Out</Link></li>
               { user
-                ? <li><Link to={`/users/${user.id}`}>Profile</Link></li>
-                : <li><Link to={'/users/'}>Profile</Link></li>
+                  ? <li><Link to={`/users/${user.id}/movies`}>Profile</Link></li>
+                  : <li><Link to={'/users/'}>Profile</Link></li>
               }
             </ul>
               { user
-                  ?  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome back, {user.username}!</Link></li></ul>
+                  ?  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome, {capitalize(user.username)}!</Link></li></ul>
                   :  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome movie nerds!</Link></li></ul>
               }
           </div>
