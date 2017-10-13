@@ -25,6 +25,10 @@ class MoviesController < ApplicationController
     Movie.includes(:user).where(user_id: params[:user_id], id: params[:id]).first.destroy
   end
 
+  def render_application_layout
+    render file: 'app/views/layouts/application.html.erb'
+  end
+
 
   private
 

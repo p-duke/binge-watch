@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
+import { capitalize } from 'lodash';
 
 export default class Profile extends React.Component {
   constructor() {
@@ -149,7 +150,7 @@ export default class Profile extends React.Component {
       <div className="container target">
         <div className="row">
           <div className="col-sm-10">
-            <h1 className="">Hi, {user.username}!</h1>
+            <h1 className="">Hi, {capitalize(user.username)}!</h1>
             <br/>
           </div>
           <div className="col-sm-2">
@@ -179,7 +180,7 @@ export default class Profile extends React.Component {
           </div>
           <div className="col-sm-9">
             <div className="panel panel-default">
-              <div className="panel-heading">{user.username}'s Bio</div>
+              <div className="panel-heading">{capitalize(user.username)}'s Bio</div>
               <div className="panel-body"> A long description about me.</div>
             </div>
             <div className="panel panel-default target">

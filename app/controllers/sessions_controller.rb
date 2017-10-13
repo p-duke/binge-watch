@@ -4,6 +4,7 @@ class SessionsController < Devise::SessionsController
 
   # GET /users/sign_in
   def new
+    render file: 'app/views/layouts/application.html.erb'
   end
 
   # POST /users/sign_in
