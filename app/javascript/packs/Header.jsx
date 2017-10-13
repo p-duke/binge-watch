@@ -33,18 +33,23 @@ export default class Header extends React.Component {
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-left">
               <li><Link to='/'>Movie Search</Link></li>
-              <li><Link to='/users/sign_up'>Sign Up</Link></li>
-              <li><Link to='/users/sign_in'>Log In</Link></li>
-              <li><Link to='/users/sign_out'>Log Out</Link></li>
+              { user
+                  ? null
+                  : <li><Link to='/users/sign_up'>Sign Up</Link></li>
+              }
+              { user
+                  ? <li><Link to='/users/sign_out'>Log Out</Link></li>
+                  : <li><Link to='/users/sign_in'>Log In</Link></li>
+              }
               { user
                   ? <li><Link to={`/users/${user.id}/movies`}>Profile</Link></li>
-                  : <li><Link to={'/users/'}>Profile</Link></li>
+                  : null
               }
             </ul>
-              { user
-                  ?  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome, {capitalize(user.username)}!</Link></li></ul>
-                  :  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome movie nerds!</Link></li></ul>
-              }
+            { user
+                ?  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome, {capitalize(user.username)}!</Link></li></ul>
+                :  <ul className="nav navbar-nav navbar-right"><li><Link to='#'>Welcome, movie nerd!</Link></li></ul>
+            }
           </div>
         </nav>
       </div>

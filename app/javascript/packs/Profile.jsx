@@ -165,10 +165,8 @@ export default class Profile extends React.Component {
           <div className="col-sm-3">
             <ul className="list-group">
               <li className="list-group-item text-muted" ><i className="glyphicon glyphicon-user"></i>   Profile</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Joined</strong></span> 2.13.2014</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Last seen</strong></span> Yesterday</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Real name</strong></span> Joseph Doe</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Role: </strong></span> Pet Sitter</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Joined</strong></span>10.13.2017</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className="">Favorite Movie</strong></span>The Big Labowski</li>
             </ul>
             <ul className="list-group">
               <li className="list-group-item text-muted"><i className="glyphicon glyphicon-film"></i>   Activity</li>

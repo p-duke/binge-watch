@@ -15,6 +15,7 @@ class SessionsController < Devise::SessionsController
       render json: { id: @user.id, username: @user.username, email: @user.email }
     else
       data = log_errors(@user)
+      data[:email] ? data[:email] = data[:email].split(' ')[1..-1].join(' ') : nil
       render json: data, status: :unauthorized
     end
   end
