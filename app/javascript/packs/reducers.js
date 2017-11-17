@@ -51,7 +51,7 @@ export const popularMovies = (state = [], action) => {
             id: movie.id,
             title: movie.title,
             overview: movie.overview,
-            posterPath: 'https://image.tmdb.org/t/p/w342/'.concat(movie.poster_path),
+            posterPath: 'https://image.tmdb.org/t/p/w154/'.concat(movie.poster_path),
             releaseDate: movie.release_date,
           }
         })

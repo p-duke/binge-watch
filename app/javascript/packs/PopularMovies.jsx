@@ -64,14 +64,14 @@ export default class PopularMovies extends React.Component {
                 )}
               </ol>
 
-              <div className="carousel-inner">
+              <div className="carousel-inner" role="listbox" style={{ whiteSpace: 'nowrap' }}>
                 { movies.map((movie,index) =>
                   index === 0
-                  ? <div key={index} className="item active">
-                      <img className="img-responsive center-block" src={movie.posterPath} alt={movie.title} />
+                  ? <div key={index} className="item active" >
+                      <img className="img-responsive" src={movie.posterPath} alt={movie.title} />
                     </div>
-                  :  <div key={index} className="item">
-                      <img className="img-responsive center-block" src={movie.posterPath} alt={movie.title} />
+                  :  <div key={index} className="item" >
+                      <img className="img-responsive" src={movie.posterPath} alt={movie.title} />
                     </div>
                 )}
               </div>
