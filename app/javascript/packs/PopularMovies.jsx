@@ -6,6 +6,7 @@ import axios from 'axios';
 import Errors from './Errors';
 import { isEmpty } from 'lodash';
 import { POPULAR_MOVIES_SEARCH } from './constants';
+import Slider from 'react-slick';
 
 export default class PopularMovies extends React.Component {
   constructor() {
@@ -45,7 +46,7 @@ export default class PopularMovies extends React.Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
-
+  
   render() {
     const movies = this.context.store.getState().popularMovies[0];
 
@@ -53,39 +54,14 @@ export default class PopularMovies extends React.Component {
       <div className="container" style={{marginBottom: 50+'px'}}>
         { movies 
             ?
-            <div className="container">
-            <h2>Popular Movies</h2>
-            <div id="myCarousel" className="carousel slide" data-ride="carousel">
-              <ol className="carousel-indicators">
-                { movies.map((movie, index) =>
-                  index === 0 
-                  ? <li key={index} data-target="#myCarousel" data-slide-to={index.toString()} className="active" ></li>
-                  : <li key={index} data-target="#myCarousel" data-slide-to={index.toString()} ></li>
-                )}
-              </ol>
-
-              <div className="carousel-inner" role="listbox" style={{ whiteSpace: 'nowrap' }}>
-                { movies.map((movie,index) =>
-                  index === 0
-                  ? <div key={index} className="item active" >
-                      <img className="img-responsive" src={movie.posterPath} alt={movie.title} />
-                    </div>
-                  :  <div key={index} className="item" >
-                      <img className="img-responsive" src={movie.posterPath} alt={movie.title} />
-                    </div>
-                )}
-              </div>
-
-              <a className="left carousel-control" href="#myCarousel" data-slide="prev">
-                <span className="glyphicon glyphicon-chevron-left"></span>
-                <span className="sr-only">Previous</span>
-              </a>
-              <a className="right carousel-control" href="#myCarousel" data-slide="next">
-                <span className="glyphicon glyphicon-chevron-right"></span>
-                <span className="sr-only">Next</span>
-              </a>
-
-            </div>
+          <div className="container">
+            <Slider arrows={true} dots={true} infinite={true} slidesToShow={5} slidesToScroll={1}>
+              { movies.map((movie,index) =>
+                <div key={index} >
+                  <img src={movie.posterPath} alt={movie.title} />
+                </div>
+              )}
+            </Slider>
           </div>
           :
             <p>Loading...</p>
