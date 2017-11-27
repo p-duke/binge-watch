@@ -98,10 +98,28 @@ export const movies = (state = [], action) => {
   }
 };
 
+
+export const movieSearch = (state = [], action) => {
+  switch (action.type) {
+    case 'SEARCH_MOVIES':
+      return action.data.map(function(movie) {
+          return {
+            id: movie.id,
+            title: movie.title,
+            overview: movie.overview,
+            posterPath: 'https://image.tmdb.org/t/p/w154/'.concat(movie.poster_path),
+            releaseDate: movie.release_date,
+          }
+        });
+    default:
+      return state;
+  }
+};
 const movieApp = combineReducers({
   user,
   popularMovies,
   movies,
+  movieSearch,
   form: formReducer,
 });
 
