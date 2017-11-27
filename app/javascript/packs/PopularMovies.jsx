@@ -55,7 +55,8 @@ export default class PopularMovies extends React.Component {
         { movies 
             ?
           <div className="container">
-            <Slider arrows={true} dots={true} infinite={true} slidesToShow={5} slidesToScroll={1}>
+            <h4>Popular Movies</h4>
+            <Slider arrows={false} dots={true} infinite={true} slidesToShow={5} slidesToScroll={1} draggable={true}>
               { movies.map((movie,index) =>
                 <div key={index} >
                   <img src={movie.posterPath} alt={movie.title} />
