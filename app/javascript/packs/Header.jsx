@@ -27,7 +27,6 @@ export default class Header extends React.Component {
   search(e) {
     e.preventDefault();
     const self = this;
-    self.setState({ results: [] });
     const apiBase = "https://api.themoviedb.org/3/search/movie?api_key=8321a3cfc56c16d3d5e7144336d8a6e2&language=en-US&query="
     const apiEnd = "&page=1&include_adult=false"
 

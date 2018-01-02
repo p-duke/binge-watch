@@ -111,6 +111,8 @@ export const movieSearch = (state = [], action) => {
             releaseDate: movie.release_date,
           }
         });
+    case 'CLEAR_RESULTS':
+      return [];
     default:
       return state;
   }
